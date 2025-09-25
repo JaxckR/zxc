@@ -1,4 +1,3 @@
-# TODO: Add tier_id column after tiers table creation
 import sqlalchemy as sa
 from sqlalchemy.orm import composite, relationship
 

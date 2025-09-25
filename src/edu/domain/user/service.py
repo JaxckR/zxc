@@ -1,4 +1,3 @@
-# TODO: Доделать создание пользователя(С хешированием пароля и. т. д)
 from typing import cast
 
 from edu.domain.common.ports.password_hasher import PasswordHasherProtocol
