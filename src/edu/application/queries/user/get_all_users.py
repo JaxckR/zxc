@@ -27,10 +27,7 @@ class GetAllUsers:
                     created_at=user.created_at,
                     updated_at=user.updated_at,
                     deleted_at=user.deleted_at,
-                    is_deleted=user.is_deleted,
                     is_superuser=user.is_superuser,
-
-                    tier_id=user.tier_id,
                 )
             )
 

@@ -28,9 +28,6 @@ class GetUserByUsername:
             created_at=r.created_at,
             updated_at=r.updated_at,
             deleted_at=r.deleted_at,
-            is_deleted=r.is_deleted,
             is_superuser=r.is_superuser,
-
-            tier_id=r.tier_id,
         )
         return result

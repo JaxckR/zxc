@@ -16,7 +16,4 @@ class UserDTO:
     created_at: datetime
     updated_at: datetime | None
     deleted_at: datetime | None
-    is_deleted: bool
     is_superuser: bool
-
-    tier_id: TierID | None

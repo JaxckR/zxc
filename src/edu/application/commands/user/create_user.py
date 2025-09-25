@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from edu.application.common.ports.id_generator import IDGenerator
 from edu.application.common.ports.repositories.user import IUserRepository
 from edu.application.common.ports.uow import UoW
-from edu.domain.tier.entity import TierID
 from edu.domain.user.entity import User
 from edu.domain.user.service import UserService
 
@@ -37,7 +36,6 @@ class CreateUserCommand:
             username=data.username,
             email=data.email,
             password=data.password,
-            tier_id=TierID(1)
         )
         await self._user_repository.add(user)
         await self._uow.commit()
