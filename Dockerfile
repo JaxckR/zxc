@@ -3,6 +3,7 @@ WORKDIR /app
 
 COPY ./pyproject.toml ./pyproject.toml
 COPY ./README.md ./alembic.ini ./
+COPY ./jwt_certs ./jwt_certs
 COPY ./src ./src
 
 RUN uv pip install --system --target dependencies .
