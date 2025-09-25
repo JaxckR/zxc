@@ -1,40 +1,63 @@
 services:
   postgres:
+    container_name: edu_service.postgres
     image: postgres:17
-    container_name: edu-postgres
+    restart: unless-stopped
     env_file:
       - .env
     environment:
       POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_DB: $POSTGRES_DB
-    restart: unless-stopped
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -d $$POSTGRES_DB -U $$POSTGRES_USER" ]
       interval: 10s
       timeout: 5s
       retries: 5
       start_period: 30s
-    volumes:
-      - postgresql-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
 
-  backend:
+  migrations:
+    container_name: edu_service.migrations
+    image: edu_backend
     build:
       context: ./
       dockerfile: Dockerfile
+    restart: on-failure
     env_file:
       - .env
+    environment:
+      POSTGRES_HOST: postgres
+    command: ["python", "-m", "alembic", "upgrade", "head"]
     depends_on:
       postgres:
         condition: service_healthy
-    restart: always
-    command: ["python", "-m", "uvicorn", "edu.main:get_app", "--factory", "--host", "0.0.0.0"]
+
+  backend:
+    container_name: edu_service.backend
+    image: edu_backend
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: postgres
     ports:
       - "0.0.0.0:8000:8000"
     expose:
       - "8000"
+    command: ["python", "-m", "uvicorn", "edu.main:get_app", "--factory", "--host", "0.0.0.0"]
+    depends_on:
+      - migrations
+    healthcheck:
+      test: [ "CMD-SHELL", "curl -fsSL http://localhost:8000/api/healthcheck" ]
+      interval: 10s
+      timeout: 60s
+      retries: 5
+      start_period: 10s
 
 volumes:
   postgresql-data:

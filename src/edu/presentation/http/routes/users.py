@@ -72,18 +72,3 @@ async def get_user(
 ):
     result = await interactor(Username(username))
     return result
-
-
-@router.patch('/{username}')
-async def update_user(username: str):
-    return {"message": "update user"}
-
-
-@router.delete('/{username}')
-async def delete_user(username: str):
-    return {"message": "delete user"}
-
-
-@router.get('/me')
-async def get_me():
-    return {"message": "get me"}
