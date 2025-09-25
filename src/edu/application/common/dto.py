@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from edu.domain.tier.entity import TierID
 from edu.domain.user.entity import UserID
 
 

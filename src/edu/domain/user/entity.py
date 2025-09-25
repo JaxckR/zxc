@@ -4,7 +4,6 @@ from typing import NewType
 from uuid import UUID
 
 from edu.domain.common.entity import OIDEntity
-from edu.domain.tier.entity import TierID
 from edu.domain.user import value_objects as vo
 
 UserID = NewType('UserID', UUID)
@@ -21,7 +20,4 @@ class User(OIDEntity[UserID]):
     created_at: datetime
     updated_at: datetime | None
     deleted_at: datetime | None
-    is_deleted: bool
     is_superuser: bool
-
-    tier_id: TierID | None
