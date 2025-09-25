@@ -1,5 +1,5 @@
 import sqlalchemy as sa
-from sqlalchemy.orm import composite, relationship
+from sqlalchemy.orm import composite
 
 from edu.domain.user import value_objects as vo
 from edu.domain.user.entity import User
@@ -18,10 +18,7 @@ users_table = sa.Table(
     sa.Column("created_at", sa.DateTime(timezone=True), nullable=False, server_default=sa.func.now()),
     sa.Column("updated_at", sa.DateTime(timezone=True), nullable=True),
     sa.Column("deleted_at", sa.DateTime(timezone=True), nullable=True),
-    sa.Column("is_deleted", sa.Boolean, nullable=False, default=False),
     sa.Column("is_superuser", sa.Boolean, nullable=False, default=False),
-
-    sa.Column("tier_id", sa.Integer, sa.ForeignKey("tiers.id"), nullable=False),
 )
 
 
@@ -40,14 +37,7 @@ def map_users_table() -> None:
             "created_at": users_table.c.created_at,
             "updated_at": users_table.c.updated_at,
             "deleted_at": users_table.c.deleted_at,
-            "is_deleted": users_table.c.is_deleted,
             "is_superuser": users_table.c.is_superuser,
-
-            "tier_id": users_table.c.tier_id,
-            "tier": relationship(
-                "Tier",
-                back_populates="users",
-            )
         },
         column_prefix="_"
     )
