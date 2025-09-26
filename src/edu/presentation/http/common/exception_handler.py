@@ -9,6 +9,7 @@ from starlette.requests import Request
 
 from edu.application.common.exceptions.authentication import AuthenticationError
 from edu.application.common.exceptions.user import UserNotFoundError
+from edu.domain.user.exceptions import MinLengthError, MaxLengthError, UsernameError, EmailError
 from edu.presentation.http.common.schemas import ErrorResponse
 
 logger = logging.getLogger(__name__)
@@ -17,6 +18,10 @@ EXCEPTIONS: Final[dict] = {
     UserNotFoundError: status.HTTP_404_NOT_FOUND,
 
     AuthenticationError: status.HTTP_401_UNAUTHORIZED,
+    MinLengthError: status.HTTP_400_BAD_REQUEST,
+    MaxLengthError: status.HTTP_400_BAD_REQUEST,
+    UsernameError: status.HTTP_400_BAD_REQUEST,
+    EmailError: status.HTTP_400_BAD_REQUEST,
 }
 
 

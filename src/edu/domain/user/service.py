@@ -15,20 +15,20 @@ class UserService:
     def create(
             self,
             oid: UserID,
-            name: str,
-            username: str,
-            email: str,
-            password: str,
+            name: vo.Name,
+            username: vo.Username,
+            email: vo.Email,
+            raw_password: vo.RawPassword,
             profile_image_url: str = "profile/default.jpg/",
             is_superuser: bool = False,
     ) -> User:
-        hashed_password = self._password_hasher.hash(password)
+        hashed_password = self._password_hasher.hash(raw_password.password)
 
         return User(
             oid=oid,
-            name=vo.Name(name),
-            username=vo.Username(username),
-            email=vo.Email(email),
+            name=name,
+            username=username,
+            email=email,
             hashed_password=hashed_password,
             profile_image_url=profile_image_url,
 

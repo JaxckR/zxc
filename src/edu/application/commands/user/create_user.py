@@ -5,6 +5,7 @@ from edu.application.common.ports.repositories.user import IUserRepository
 from edu.application.common.ports.uow import UoW
 from edu.domain.user.entity import User
 from edu.domain.user.service import UserService
+from edu.domain.user import value_objects as vo
 
 
 @dataclass(slots=True)
@@ -32,10 +33,10 @@ class CreateUserCommand:
     async def __call__(self, data: CreateUserDTO) -> None:
         user: User = self._user_service.create(
             oid=self._id_generator.generate_user_id(),
-            name=data.name,
-            username=data.username,
-            email=data.email,
-            password=data.password,
+            name=vo.Name(data.name),
+            username=vo.Username(data.username),
+            email=vo.Email(data.email),
+            raw_password=vo.RawPassword(data.password),
         )
         await self._user_repository.add(user)
         await self._uow.commit()
