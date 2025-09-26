@@ -51,7 +51,8 @@ services:
       - "8000"
     command: ["python", "-m", "uvicorn", "edu.main:get_app", "--factory", "--host", "0.0.0.0"]
     depends_on:
-      - migrations
+      migrations:
+        condition: service_started
     healthcheck:
       test: [ "CMD-SHELL", "curl -fsSL http://localhost:8000/api/healthcheck" ]
       interval: 10s
